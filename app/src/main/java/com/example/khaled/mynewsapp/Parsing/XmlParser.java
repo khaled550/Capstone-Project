@@ -1,42 +1,34 @@
 package com.example.khaled.mynewsapp.Parsing;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.os.DropBoxManager;
-import android.preference.PreferenceManager;
 import android.util.Log;
-import android.util.Xml;
 import android.widget.Toast;
 
 import com.example.khaled.mynewsapp.Models.PieceOfNews;
-import com.example.khaled.mynewsapp.R;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-
-import org.apache.http.client.methods.HttpGet;
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
+import javax.xml.parsers.ParserConfigurationException;
 
 /**
  * Created by khaled on 1/14/18.
@@ -52,18 +44,24 @@ public class XmlParser extends AsyncTask<Void, Void, List<PieceOfNews>> {
 
     @Override
     protected List<PieceOfNews> doInBackground(Void... arg0) {
-
+        List<PieceOfNews> pieceOfNewsList = new ArrayList<>();
         String url = "https://arabic.cnn.com/rss/";
 
-        try {
-            Log.i("XMLfileStr", url);
-            Log.i("XMLfileStr", loadXmlFromNetwork(url));
-        } catch (XmlPullParserException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        String xml = getXmlFromUrl(url); // getting XML
+        Document doc = getDomElement(xml);
 
+        NodeList nodeList = doc.getElementsByTagName("item");
+
+// looping through all item nodes <item>
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Element e = (Element) nodeList.item(i);
+            String title = getValue(e, "title"); // name child value
+            String link = getValue(e, "link"); // cost child value
+            String description = getValue(e, "description"); // description child value
+            String pubDate = getValue(e, "pubDate");
+
+            pieceOfNewsList.add(new PieceOfNews(0, 0, title, "", "", description, link, "", pubDate));
+        }
         return pieceOfNewsList;
     }
 
@@ -80,55 +78,85 @@ public class XmlParser extends AsyncTask<Void, Void, List<PieceOfNews>> {
         }*/
     }
 
-    private String loadXmlFromNetwork(String urlString) throws XmlPullParserException, IOException {
-        InputStream stream = null;
-        // Instantiate the parser
-        StackOverflowXmlParser stackOverflowXmlParser = new StackOverflowXmlParser();
-        List<PieceOfNews> entries = null;
-        String title = null;
-        String url = null;
-        String summary = null;
-        Calendar rightNow = Calendar.getInstance();
-        DateFormat formatter = new SimpleDateFormat("MMM dd h:mmaa");
+    private String getXmlFromUrl(String url) {
+        String xml = null;
 
         try {
-            stream = downloadUrl(urlString);
-            entries = stackOverflowXmlParser.parse(stream);
-            // Makes sure that the InputStream is closed after the app is
-            // finished using it.
-        } finally {
-            if (stream != null) {
-                stream.close();
+            // defaultHttpClient
+            DefaultHttpClient httpClient = new DefaultHttpClient();
+            HttpPost httpPost = new HttpPost(url);
+
+            HttpResponse httpResponse = httpClient.execute(httpPost);
+            HttpEntity httpEntity = httpResponse.getEntity();
+            xml = EntityUtils.toString(httpEntity);
+
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // return XML
+        return xml;
+    }
+
+    public Document getDomElement(String xml){
+        Document doc = null;
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        try {
+
+            DocumentBuilder db = dbf.newDocumentBuilder();
+
+            InputSource is = new InputSource();
+            is.setCharacterStream(new StringReader(xml));
+            doc = db.parse(is);
+
+        } catch (ParserConfigurationException e) {
+            Log.e("Error: ", e.getMessage());
+            return null;
+        } catch (SAXException e) {
+            Log.e("Error: ", e.getMessage());
+            return null;
+        } catch (IOException e) {
+            Log.e("Error: ", e.getMessage());
+            return null;
+        }
+        // return DOM
+        return doc;
+    }
+
+    public String getValue(Element item, String str) {
+        NodeList n = item.getElementsByTagName(str);
+        return this.getElementValue(n.item(0));
+    }
+
+    public final String getElementValue( Node elem ) {
+        Node child;
+        if( elem != null){
+            if (elem.hasChildNodes()){
+                for( child = elem.getFirstChild(); child != null; child = child.getNextSibling() ){
+                    if( child.getNodeType() == Node.TEXT_NODE  ){
+                        return child.getNodeValue();
+                    }
+                }
             }
         }
-
-        // StackOverflowXmlParser returns a List (called "entries") of Entry objects.
-        // Each Entry object represents a single post in the XML feed.
-        // This section processes the entries list to combine each entry with HTML markup.
-        // Each entry is displayed in the UI as a link that optionally includes
-        // a text summary.
-
-        StringBuilder htmlString = new StringBuilder();
-        for (PieceOfNews pieceOfNews : entries) {
-            htmlString.append("<p><a href='");
-            htmlString.append(pieceOfNews.getTitleLink());
-            htmlString.append("'>" + pieceOfNews.getArticleTitle() + "</a></p>");
-        }
-        return htmlString.toString();
+        return "";
     }
 
     // Given a string representation of a URL, sets up a connection and gets
 // an input stream.
-    private InputStream downloadUrl(String urlString) throws IOException {
+    /*private InputStream downloadUrl(String urlString) throws IOException {
         URL url = new URL(urlString);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setReadTimeout(10000 /* milliseconds */);
-        conn.setConnectTimeout(15000 /* milliseconds */);
+        conn.setReadTimeout(10000 /* milliseconds );
+        conn.setConnectTimeout(15000 /* milliseconds );
         conn.setRequestMethod("GET");
         conn.setDoInput(true);
         // Starts the query
         conn.connect();
         return conn.getInputStream();
-    }
+    }*/
 }
 
