@@ -47,20 +47,27 @@ public class XmlParser extends AsyncTask<Void, Void, List<PieceOfNews>> {
         List<PieceOfNews> pieceOfNewsList = new ArrayList<>();
         String url = "https://arabic.cnn.com/rss/";
 
-        String xml = getXmlFromUrl(url); // getting XML
+        String xml = getXmlFromUrl(url);
         Document doc = getDomElement(xml);
 
         NodeList nodeList = doc.getElementsByTagName("item");
 
-// looping through all item nodes <item>
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element e = (Element) nodeList.item(i);
-            String title = getValue(e, "title"); // name child value
-            String link = getValue(e, "link"); // cost child value
-            String description = getValue(e, "description"); // description child value
+            String title = getValue(e, "title");
+            String link = getValue(e, "link");
+            String description = getValue(e, "description");
             String pubDate = getValue(e, "pubDate");
-
-            pieceOfNewsList.add(new PieceOfNews(0, 0, title, "", "", description, link, "", pubDate));
+            String category = getValue(e, "category");
+            String guid = getValue(e, "guid");
+            NodeList nodeList2 = doc.getElementsByTagName("enclosure");
+            String enclosure = "";
+            if (nodeList2 != null){
+                Element e2 = (Element) nodeList2.item(i);
+                enclosure = e2.getAttribute("url");
+            }
+            Log.i("XMLparse", guid);
+            pieceOfNewsList.add(new PieceOfNews(Integer.valueOf(guid.substring(0, 5)), title, enclosure,  description, link, category, pubDate));
         }
         return pieceOfNewsList;
     }
@@ -72,17 +79,12 @@ public class XmlParser extends AsyncTask<Void, Void, List<PieceOfNews>> {
         if (pieceOfNewsList == null){
             Toast.makeText(context, "Error Loading Data", Toast.LENGTH_LONG).show();
         }
-        /*for (int i =0;i < result.size();i++){
-            DBUtils dbUtils = new DBUtils(context);
-            dbUtils.insertRecipe(result.get(i));
-        }*/
     }
 
     private String getXmlFromUrl(String url) {
         String xml = null;
 
         try {
-            // defaultHttpClient
             DefaultHttpClient httpClient = new DefaultHttpClient();
             HttpPost httpPost = new HttpPost(url);
 
@@ -97,7 +99,6 @@ public class XmlParser extends AsyncTask<Void, Void, List<PieceOfNews>> {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        // return XML
         return xml;
     }
 
@@ -122,7 +123,6 @@ public class XmlParser extends AsyncTask<Void, Void, List<PieceOfNews>> {
             Log.e("Error: ", e.getMessage());
             return null;
         }
-        // return DOM
         return doc;
     }
 
@@ -144,19 +144,5 @@ public class XmlParser extends AsyncTask<Void, Void, List<PieceOfNews>> {
         }
         return "";
     }
-
-    // Given a string representation of a URL, sets up a connection and gets
-// an input stream.
-    /*private InputStream downloadUrl(String urlString) throws IOException {
-        URL url = new URL(urlString);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setReadTimeout(10000 /* milliseconds );
-        conn.setConnectTimeout(15000 /* milliseconds );
-        conn.setRequestMethod("GET");
-        conn.setDoInput(true);
-        // Starts the query
-        conn.connect();
-        return conn.getInputStream();
-    }*/
 }
 

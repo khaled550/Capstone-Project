@@ -63,11 +63,11 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.ViewHo
         holder.articleTitle.setText(pieceOfNews.getArticleTitle());
         holder.articleDate.setText(pieceOfNews.getArticlePubDate());
 
-        /*if (!pieceOfNews.getImgUrl().equals("")){
+        if (!pieceOfNews.getImgUrl().equals("")){
             Picasso.with(this.context)
                     .load(pieceOfNews.getImgUrl())
                     .into(holder.articleImage);
-        }*/
+        }
 
         //holder.recipeServings.setText(String.format(Locale.US, "%s %d", "Servings:", recipe.getServings()));
     }

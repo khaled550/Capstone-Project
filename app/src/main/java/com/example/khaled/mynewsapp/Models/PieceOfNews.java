@@ -5,19 +5,19 @@ package com.example.khaled.mynewsapp.Models;
  */
 
 public class PieceOfNews {
-    private int articleId, clusterId;
-    private String articleTitle, thumb_url, imgUrl, articleDescription, titleLink,
-            articleAuthor, articlePubDate;
+    private int articleId;
+    private String articleTitle, imgUrl, articleDescription, articleLink,
+            articleCategory, articlePubDate;
 
-    public PieceOfNews(int articleId, int clusterId, String articleTitle, String thumb_url, String imgUrl, String articleDescription, String titleLink, String articleAuthor, String articlePubDate) {
+    public PieceOfNews(){}
+
+    public PieceOfNews(int articleId, String articleTitle, String imgUrl, String articleDescription, String titleLink, String articleCategory, String articlePubDate) {
         this.articleId = articleId;
-        this.clusterId = clusterId;
         this.articleTitle = articleTitle;
-        this.thumb_url = thumb_url;
         this.imgUrl = imgUrl;
         this.articleDescription = articleDescription;
-        this.titleLink = titleLink;
-        this.articleAuthor = articleAuthor;
+        this.articleLink = titleLink;
+        this.articleCategory = articleCategory;
         this.articlePubDate = articlePubDate;
     }
 
@@ -29,28 +29,12 @@ public class PieceOfNews {
         this.articleId = articleId;
     }
 
-    public int getClusterId() {
-        return clusterId;
-    }
-
-    public void setClusterId(int clusterId) {
-        this.clusterId = clusterId;
-    }
-
     public String getArticleTitle() {
         return articleTitle;
     }
 
     public void setArticleTitle(String articleTitle) {
         this.articleTitle = articleTitle;
-    }
-
-    public String getThumb_url() {
-        return thumb_url;
-    }
-
-    public void setThumb_url(String thumb_url) {
-        this.thumb_url = thumb_url;
     }
 
     public String getImgUrl() {
@@ -69,27 +53,27 @@ public class PieceOfNews {
         this.articleDescription = articleDescription;
     }
 
-    public String getTitleLink() {
-        return titleLink;
+    public String getArticleLink() {
+        return articleLink;
     }
 
-    public void setTitleLink(String titleLink) {
-        this.titleLink = titleLink;
+    public void setArticleLink(String articleLink) {
+        this.articleLink = articleLink;
     }
 
-    public String getArticleAuthor() {
-        return articleAuthor;
+    public String getArticleCategory() {
+        return articleCategory;
     }
 
-    public void setArticleAuthor(String articleAuthor) {
-        this.articleAuthor = articleAuthor;
+    public void setArticleCategory(String articleCategory) {
+        this.articleCategory = articleCategory;
     }
 
     public String getArticlePubDate() {
         return articlePubDate;
     }
 
-    public void setArticlePubDate(String atriclePubDate) {
-        this.articlePubDate = atriclePubDate;
+    public void setArticlePubDate(String articlePubDate) {
+        this.articlePubDate = articlePubDate;
     }
 }
