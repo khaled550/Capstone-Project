@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "850119054064",
+    "firebase_url": "https://mynewsapp-f87a0.firebaseio.com",
+    "project_id": "mynewsapp-f87a0",
+    "storage_bucket": "mynewsapp-f87a0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:850119054064:android:7dacd04d03d7df1b",
+        "android_client_info": {
+          "package_name": "com.example.khaled.mynewsapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "850119054064-18bb7lnge7ukljrc830uesj5i5626i4l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.khaled.mynewsapp",
+            "certificate_hash": "9c57971e11d998c83bd42c13db1fbb91cc0c16fb"
+          }
+        },
+        {
+          "client_id": "850119054064-ldqk9jijbs0sbl2vqq889f6nattnjigd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBCJFL2HUQasNfK6QBvXax_W_finivbyBE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "850119054064-ldqk9jijbs0sbl2vqq889f6nattnjigd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

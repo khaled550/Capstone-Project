@@ -5,7 +5,7 @@
     <item
         android:id="@+id/saveOffline"
         android:orderInCategory="100"
-        android:title="Save Offline"
+        android:title="@string/save_offline"
         app:showAsAction="always" />
 
 </menu>

@@ -56,9 +56,9 @@ public class NewsDetailsActivity extends AppCompatActivity {
         if (id == R.id.saveOffline) {
             if (!SqlUtils.isFav(this, MainActivity.pieceOfNewsList.get(currentPos).getArticleId())){
                 SqlUtils.insertSinglePieceOfNewsToDB(this,MainActivity.pieceOfNewsList.get(currentPos));
-                Toast.makeText(this, "Saved", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getApplicationContext().getResources().getString(R.string.saved), Toast.LENGTH_LONG).show();
             } else
-                Toast.makeText(this, "Already Saved", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getApplicationContext().getResources().getString(R.string.already_saved), Toast.LENGTH_LONG).show();
         }
         return super.onOptionsItemSelected(item);
     }

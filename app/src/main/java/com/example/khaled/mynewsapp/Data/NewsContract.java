@@ -27,12 +27,12 @@ public class NewsContract {
         public static final String TABLE_NAME = "News";
 
         public final static String News_ID = "news_id";
-        final static String News_Title = "newsTitle";
-        final static String News_Link = "newsLink";
-        final static String News_Img = "newsImage";
-        final static String News_Description = "newsDesc";
-        final static String News_Category = "newsCategory";
-        final static String publish_time = "newsPublishDate";
+        public final static String News_Title = "newsTitle";
+        public final static String News_Link = "newsLink";
+        public final static String News_Img = "newsImage";
+        public final static String News_Description = "newsDesc";
+        public final static String News_Category = "newsCategory";
+        public final static String publish_time = "newsPublishDate";
 
         public static long getIdFromUri(Uri uri) {
             return ContentUris.parseId(uri);

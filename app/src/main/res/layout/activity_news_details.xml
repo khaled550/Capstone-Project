@@ -19,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="5sp"
-        android:text="Article Title"
+        android:text="@string/article_title"
         android:textStyle="bold"
         android:textSize="30sp"
         android:textColor="@color/material_color_black" />
@@ -30,7 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="5sp"
-        android:text="Description"
+        android:text="@string/article_desc"
         android:textSize="20sp"
         android:textColor="@color/material_color_black" />
 

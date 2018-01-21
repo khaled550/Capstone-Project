@@ -8,7 +8,7 @@
         android:id="@+id/widgetTitle"
         android:layout_width="225sp"
         android:layout_height="wrap_content"
-        android:text="Breaking News"
+        android:text="@string/breakingNews"
         android:textSize="19sp"
         android:textStyle="bold"
         android:textColor="@color/material_color_red_700" />
