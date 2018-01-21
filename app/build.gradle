@@ -5,7 +5,7 @@ android {
         config {
             keyAlias 'khaled'
             keyPassword 'khaled1496'
-            storeFile file('/home/khaled/AndroidStudioProjects/MyNewsApp/keystore.jks')
+            storeFile file('/keystore.jks')
             storePassword 'khaled1496'
         }
     }

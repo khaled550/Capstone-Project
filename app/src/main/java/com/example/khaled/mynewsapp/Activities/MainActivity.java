@@ -194,7 +194,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     public void createpDialog(){
         dialog = new ProgressDialog(MainActivity.this);
-        dialog.setMessage("Loading Latest News...");
+        dialog.setMessage(getResources().getString(R.string.latest_news));
         dialog.show();
     }
 
