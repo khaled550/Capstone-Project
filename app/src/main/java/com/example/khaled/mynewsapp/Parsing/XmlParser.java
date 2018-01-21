@@ -77,7 +77,7 @@ public class XmlParser extends AsyncTask<Void, Void, List<PieceOfNews>> {
         super.onPostExecute(pieceOfNewsList);
 
         if (pieceOfNewsList == null){
-            Toast.makeText(context, "Error Loading Data", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, context.getResources().getString(R.string.error_loading), Toast.LENGTH_LONG).show();
         }
     }
 
