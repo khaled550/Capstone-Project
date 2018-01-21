@@ -11,4 +11,5 @@
     <string name="loading_news">Loading Latest News...</string>
     <string name="saved">Saved</string>
     <string name="already_saved">Already Saved</string>
+    <string name="error_loading">Error Loading Data</string>
 </resources>
